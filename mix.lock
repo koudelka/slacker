@@ -1,0 +1,11 @@
+%{"cowboy": {:hex, :cowboy, "1.0.0"},
+  "cowlib": {:hex, :cowlib, "1.0.1"},
+  "hackney": {:hex, :hackney, "1.1.0"},
+  "httpoison": {:hex, :httpoison, "0.6.2"},
+  "idna": {:hex, :idna, "1.0.2"},
+  "inflex": {:hex, :inflex, "1.0.0"},
+  "plug": {:hex, :plug, "0.12.2"},
+  "poison": {:hex, :poison, "1.4.0"},
+  "ranch": {:hex, :ranch, "1.0.0"},
+  "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.4"},
+  "websocket_client": {:git, "git://github.com/jeremyong/websocket_client.git", "f465f229958293949e4a192bea65a7e47bb2f762", []}}
