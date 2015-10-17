@@ -6,9 +6,7 @@ defmodule Slacker.Web do
   #   and provide any necessary parameters as a keyword list, ex:
 
   #     https://api.slack.com/methods/channels.setPurpose
-  #     Slacker.Web.channels_set_purpose(channel: "general", purpose: "let's waste time")
-
-  #   Your auth token will be automatically included for you.
+  #     Slacker.Web.channels_set_purpose("your_api_key", channel: "general", purpose: "let's waste time")
   # """
 
   alias Slacker.WebAPI
