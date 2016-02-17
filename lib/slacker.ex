@@ -12,8 +12,8 @@ defmodule Slacker do
 
       @before_compile unquote(__MODULE__)
 
-      def start_link(api_token) do
-        GenServer.start_link(__MODULE__, api_token)
+      def start_link(api_token, options \\ []) do
+        GenServer.start_link(__MODULE__, api_token, options)
       end
 
       def init(api_token) do
