@@ -15,7 +15,7 @@ defmodule Slacker.Mixfile do
   end
 
   def application do
-    [applications: [:logger, :httpoison, :poison, :crypto, :ssl]]
+    [applications: [:logger, :httpoison, :poison, :crypto, :ssl, :websocket_client]]
   end
 
   defp deps(:test) do
@@ -31,7 +31,7 @@ defmodule Slacker.Mixfile do
   end
 
   defp package do
-    [contributors: ["Michael Shapiro"],
+    [maintainers: ["Michael Shapiro"],
      licenses: ["MIT"],
      links: %{"GitHub": "https://github.com/koudelka/slacker",
               "Slack": "https://api.slack.com"}]
