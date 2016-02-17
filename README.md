@@ -51,7 +51,7 @@ Add this to your deps:
 ```elixir
 def deps do
   [{:websocket_client, github: "jeremyong/websocket_client"},
-  {:slacker,  "~> 0.0.1"}]
+  {:slacker,  "~> 0.0.2"}]
 end
 ```
 
