@@ -21,13 +21,24 @@ defmodule Slacker.Matcher do
   defmacro __before_compile__(_env) do
     quote do
       def match!(slacker, %{"text" => text} = msg) do
-        Enum.each(@regex_patterns, fn {pattern, [m, f]} ->
-          match = Regex.run(pattern, text)
-          if match do
-            [_text | captures] = match
-            :erlang.apply(m, f, [slacker, msg] ++ captures)
-          end
-        end)
+        case @strategy || :many do
+          :one ->
+            match = Enum.find(Enum.reverse(@regex_patterns), fn {pattern, [m, f]} ->
+               text =~ pattern
+            end)
+            if {pattern, [m, f]} = match do
+              [_text | captures] = Regex.run(pattern, text)
+              apply(m, f, [slacker, msg] ++ captures)
+            end
+          :many ->
+            Enum.each(@regex_patterns, fn {pattern, [m, f]} ->
+              match = Regex.run(pattern, text)
+              if match do
+                [_text | captures] = match
+                :erlang.apply(m, f, [slacker, msg] ++ captures)
+              end
+            end)
+        end
       end
     end
   end
