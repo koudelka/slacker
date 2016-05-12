@@ -8,4 +8,4 @@
   "poison": {:hex, :poison, "1.4.0"},
   "ranch": {:hex, :ranch, "1.0.0"},
   "ssl_verify_hostname": {:hex, :ssl_verify_hostname, "1.0.4"},
-  "websocket_client": {:git, "git://github.com/jeremyong/websocket_client.git", "f465f229958293949e4a192bea65a7e47bb2f762", []}}
+  "websocket_client": {:git, "https://github.com/jeremyong/websocket_client.git", "f465f229958293949e4a192bea65a7e47bb2f762", []}}

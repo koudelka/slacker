@@ -12,7 +12,7 @@ defmodule Slacker.Matcher do
 
       # some integrations don't provide a "text" field, ignore them
       def handle_cast({:handle_incoming, "message", %{"text" => _} = msg}, state) do
-        match!(self, msg)
+        state = match!(self, msg, state)
         {:noreply, state}
       end
     end
@@ -20,14 +20,27 @@ defmodule Slacker.Matcher do
 
   defmacro __before_compile__(_env) do
     quote do
-      def match!(slacker, %{"text" => text} = msg) do
-        Enum.each(@regex_patterns, fn {pattern, [m, f]} ->
-          match = Regex.run(pattern, text)
-          if match do
-            [_text | captures] = match
-            :erlang.apply(m, f, [slacker, msg] ++ captures)
-          end
-        end)
+      def match!(slacker, %{"text" => text} = msg, state) do
+        case @strategy || :many do
+          :one ->
+            match = Enum.find(Enum.reverse(@regex_patterns), fn {pattern, [m, f]} ->
+               text =~ pattern
+            end)
+            if {pattern, [m, f]} = match do
+              [_text | captures] = Regex.run(pattern, text)
+              apply(m, f, [slacker, msg] ++ captures ++ [state])
+            end
+          :many ->
+            Enum.reduce(@regex_patterns, state, fn {pattern, [m, f]}, state ->
+              match = Regex.run(pattern, text)
+              if match do
+                [_text | captures] = match
+                :erlang.apply(m, f, [slacker, msg] ++ captures ++ [state])
+              else
+                state
+              end
+            end)
+        end
       end
     end
   end
@@ -41,8 +54,8 @@ defmodule Slacker.Matcher do
 
     quote do
       if is_binary(unquote(pattern)) do
-        def match!(slacker, %{"text" => unquote(pattern)} = msg) do
-          :erlang.apply(unquote(m), unquote(f), [slacker, msg])
+        def match!(slacker, %{"text" => unquote(pattern)} = msg, state) do
+          :erlang.apply(unquote(m), unquote(f), [slacker, msg, state])
         end
       else
         @regex_patterns {unquote(pattern), [unquote(m), unquote(f)]}
